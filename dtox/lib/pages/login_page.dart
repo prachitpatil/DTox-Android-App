@@ -66,14 +66,17 @@ class _LoginPageState extends State<LoginPage> {
                                 height: 25,
                               ),
                               RaisedButton(
+                                padding: EdgeInsets.all(12.0),
                                 onPressed: () {},
                                 child: Text("Login",
                                 style: TextStyle(
                                   letterSpacing: 2.0,
+                                  fontSize: 16.0,
                                   fontWeight: FontWeight.bold,
+                                  color: Colors.indigo[800],
                                 ),
                                 ),
-                                color: Colors.greenAccent[400],
+                                color: Colors.lightGreenAccent[400],
                                 textColor: Colors.blueGrey[800],
                               ),
                               SizedBox(
@@ -88,15 +91,17 @@ class _LoginPageState extends State<LoginPage> {
                                       fontWeight: FontWeight.bold,
                                       color: Colors.indigo
                                   ),),
-                                  RaisedButton.icon(onPressed: () {},
+                                  RaisedButton.icon(onPressed: () {
+                                    Navigator.pushNamed(context, '/signup');
+                                  },
                                       icon: Icon(Icons.person_add,
-                                        color: Colors.redAccent,
+                                        color: Colors.amberAccent,
                                       ),
                                       label: Text('Register',
                                       style: TextStyle(
                                         letterSpacing: 2.0,
                                           fontWeight: FontWeight.bold,
-                                        color: Colors.redAccent
+                                        color: Colors.amberAccent
                                       ),
                                       ),
                                   color: Colors.indigo,
