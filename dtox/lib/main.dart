@@ -6,7 +6,7 @@ import 'package:dtox/pages/login_page.dart';
 
 void main() =>
     runApp(MaterialApp(
-      initialRoute: '/login',
+      initialRoute: '/home',
       routes: {
         '/login': (context) => LoginPage(),
         '/home': (context) => Home(),

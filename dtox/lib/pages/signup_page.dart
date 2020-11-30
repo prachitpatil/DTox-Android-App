@@ -79,6 +79,7 @@ class _SignupPageState extends State<SignupPage> {
                                 ),
                                 RaisedButton(
                                   padding: EdgeInsets.all(12.0),
+
                                   onPressed: () {
                                     Navigator.pushReplacementNamed(context, '/login');
                                   },
@@ -91,6 +92,7 @@ class _SignupPageState extends State<SignupPage> {
                                     ),
                                   ),
                                   color: Colors.amber[400],
+                                  //hoverColor: Colors.purple,
                                   textColor: Colors.blueGrey[800],
                                 ),
                                 SizedBox(
