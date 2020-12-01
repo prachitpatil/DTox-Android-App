@@ -15,51 +15,72 @@ class _HomeState extends State<Home> {
   Timer timer;
 
   double percent = 0;
-  static int timeInMinute = 25;
+  static int timeInMinute = 1;
   static int timeInSecond = timeInMinute * 60;
   int time2 = timeInMinute;
   int sec2 = 0;
   String quote = "Let's start a Focus Session";
+  bool _hasBeenPressed = false;
 
   _StartTimer() {
-    int time = timeInMinute * 60;
-    double secPercent = (time / 100);
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (time > 0) {
-          time--;
-          if (time % secPercent == 0) {
-            if (percent < 1) {
-              percent += 0.01;
-            }
-            else {
-              percent = 1;
+    _hasBeenPressed = !_hasBeenPressed;
+    if(_hasBeenPressed) {
+      int time = timeInMinute * 60;
+      double secPercent = (time / 100);
+      time2--;
+      sec2 = 59;
+      timer = Timer.periodic(Duration(minutes: 1), (timer) {
+        time2--;
+      });
+      timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          sec2--;
+          if(sec2 == 0){
+            sec2 = 59;
+          }
+          if (time > 0) {
+            time--;
+            if (time % secPercent == 0) {
+              if (percent < 1) {
+                percent += 0.01;
+              }
+              else {
+                percent = 1;
+              }
             }
           }
-        }
-        else {
-          percent = 0;
-          timeInMinute = 25;
-          timer.cancel();
-        }
+          else {
+            percent = 0;
+            timeInMinute = 25;
+            time2 = timeInMinute;
+            sec2 = 0;
+            timer.cancel();
+            Navigator.pushNamed(context, '/choice');
+          }
+        });
       });
-    });
 
-        time2--;
-        sec2 = 59;
-    timer = Timer.periodic(Duration(minutes: 1), (timer) {
-      time2--;
-    });
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      sec2--;
-      if(sec2 == 0){
-        sec2 = 59;
-      }
-      if(time2 == 0 && sec2 == 0) {
+
+      // timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      //   sec2--;
+      //   if(sec2 == 0){
+      //     sec2 = 59;
+      //   }
+      //   if(time2 == 0 && sec2 == 0) {
+      //     timer.cancel();
+      //     Navigator.pushNamed(context, '/login');
+      //   }
+      // });
+    }
+    else{
+      setState(() {
+        percent = 0;
+        timeInMinute = 25;
+        time2 = timeInMinute;
+        sec2 = 0;
         timer.cancel();
-        Navigator.pushNamed(context, '/login');
-      }
-    });
+      });
+    }
   }
 
   @override
@@ -212,14 +233,14 @@ class _HomeState extends State<Home> {
                         padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 20.0),
                         child: RaisedButton(
                           onPressed: _StartTimer,
-                          color: Colors.blueAccent,
+                          color: _hasBeenPressed?Colors.redAccent:Colors.blueAccent,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0),
                           ),
                           child: Padding(
                             padding: EdgeInsets.all(10.0),
                             child: Text(
-                              'Start Focusing!',
+                              _hasBeenPressed ? 'Give Up!' : 'Start Focusing!',
                               style: TextStyle(
                                 letterSpacing: 2.0,
                                 fontSize: 28.0,
