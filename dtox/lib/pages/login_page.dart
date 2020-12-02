@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text("Not an User?",
+                                  Text("Not a User?",
                                   style: TextStyle(
                                       letterSpacing: 1.5,
                                       fontWeight: FontWeight.bold,

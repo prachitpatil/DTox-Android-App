@@ -1,6 +1,7 @@
 
 import 'package:dtox/pages/choice.dart';
 import 'package:dtox/pages/news_page.dart';
+import 'package:dtox/pages/option_page.dart';
 import 'package:dtox/pages/quiz.dart';
 import 'package:dtox/pages/signup_page.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ import 'package:dtox/pages/login_page.dart';
 
 void main() =>
     runApp(MaterialApp(
-      initialRoute: '/news',
+      initialRoute: '/login',
       routes: {
         '/login': (context) => LoginPage(),
         '/home': (context) => Home(),
@@ -17,6 +18,7 @@ void main() =>
         '/choice': (context) => ChoicePage(),
         '/quiz': (context) => QuizPage(),
         '/news': (context) => NewsPage(),
+        '/option': (context) => OptionPage(),
 
       },
     ));

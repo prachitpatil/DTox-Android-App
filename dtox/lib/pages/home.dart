@@ -18,6 +18,7 @@ class _HomeState extends State<Home> {
   static int timeInMinute = 1;
   static int timeInSecond = timeInMinute * 60;
   int time2 = timeInMinute;
+  int time3 = 0;
   int sec2 = 0;
   String quote = "Let's start a Focus Session";
   bool _hasBeenPressed = false;
@@ -30,11 +31,16 @@ class _HomeState extends State<Home> {
       time2--;
       sec2 = 59;
       timer = Timer.periodic(Duration(minutes: 1), (timer) {
-        time2--;
+        time3++;
+        if(time3 <= timeInMinute){
+          sec2--;
+        }
       });
       timer = Timer.periodic(Duration(seconds: 1), (timer) {
         setState(() {
-          sec2--;
+          if(time3 <= timeInMinute){
+            sec2--;
+          }
           if(sec2 == 0){
             sec2 = 59;
           }
@@ -50,12 +56,13 @@ class _HomeState extends State<Home> {
             }
           }
           else {
+            timer.cancel();
             percent = 0;
             timeInMinute = 25;
             time2 = timeInMinute;
             sec2 = 0;
-            timer.cancel();
-            Navigator.pushNamed(context, '/choice');
+            _hasBeenPressed = false;
+            Navigator.pushNamed(context, '/option');
           }
         });
       });

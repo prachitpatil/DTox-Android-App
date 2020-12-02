@@ -29,15 +29,26 @@ class _QuizPageState extends State<QuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quiz',
-        style: TextStyle(
-          letterSpacing: 2.0,
-          color: Colors.blueGrey[700],
-        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'D-Tox',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            Text('Quiz',
+            style: TextStyle(
+              letterSpacing: 2.0,
+              color: Colors.blue,
+            ),
+            ),
+          ],
         ),
         centerTitle: true,
         elevation: 1.0,
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[900],
       ),
       body: RefreshIndicator(
         onRefresh: fetchQuestions,

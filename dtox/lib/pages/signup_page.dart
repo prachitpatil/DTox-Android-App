@@ -104,7 +104,7 @@ class _SignupPageState extends State<SignupPage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Text("Already an User?",
+                                    Text("Already a User?",
                                       style: TextStyle(
                                           letterSpacing: 1.5,
                                           fontWeight: FontWeight.bold,
