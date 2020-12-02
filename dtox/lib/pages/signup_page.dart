@@ -83,6 +83,9 @@ class _SignupPageState extends State<SignupPage> {
                                   onPressed: () {
                                     Navigator.pushReplacementNamed(context, '/login');
                                   },
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100.0),
+                                  ),
                                   child: Text("SignUp",
                                     style: TextStyle(
                                       letterSpacing: 2.0,

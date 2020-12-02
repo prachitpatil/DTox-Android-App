@@ -68,6 +68,9 @@ class _LoginPageState extends State<LoginPage> {
                               RaisedButton(
                                 padding: EdgeInsets.all(12.0),
                                 onPressed: () {},
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100.0),
+                                ),
                                 child: Text("Login",
                                 style: TextStyle(
                                   letterSpacing: 2.0,
