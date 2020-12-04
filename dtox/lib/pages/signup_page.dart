@@ -1,3 +1,5 @@
+import 'package:dtox/pages/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,10 +9,25 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final nameController = TextEditingController();
+  bool _isSuccess;
+  String _userEmail;
+
+  @override
+
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,52 +53,73 @@ class _SignupPageState extends State<SignupPage> {
                       Card(
                         color: Colors.white,
                         child: Form(
+                          key: _formKey,
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Column(
 
                               children: <Widget>[
                                 TextFormField(
-                                  controller: nameController,
+                                  controller: _nameController,
                                   decoration: InputDecoration(
                                     hintText: "FirstName LastName",
                                     labelText: "Name",
                                     border: OutlineInputBorder(),
                                   ),
+                                  validator: (String value) {
+                                    if (value.isEmpty) {
+                                      return 'Name cannot be empty';
+                                    }
+                                    return null;
+                                  },
 
                                 ),
                                 SizedBox(
                                   height: 25,
                                 ),
                                 TextFormField(
-                                  controller: emailController,
+                                  controller: _emailController,
                                   decoration: InputDecoration(
                                     hintText: "username@email.com",
                                     labelText: "Email",
                                     border: OutlineInputBorder(),
                                   ),
+                                  validator: (String value) {
+                                    if (value.isEmpty) {
+                                      return 'Email cannot be empty';
+                                    }
+                                    return null;
+                                  },
 
                                 ),
                                 SizedBox(
                                   height: 25,
                                 ),
                                 TextFormField(
-                                  controller: passwordController,
+                                  controller: _passwordController,
                                   obscureText: true,
                                   decoration: InputDecoration(
                                     hintText: "Enter Password",
                                     labelText: "Password",
                                     border: OutlineInputBorder(),
                                   ),
+                                  validator: (String value) {
+                                    if (value.isEmpty) {
+                                      return 'Password cannot be empty';
+                                    }
+                                    return null;
+                                  },
                                 ),
                                 SizedBox(
                                   height: 25,
                                 ),
                                 RaisedButton(
-                                  padding: EdgeInsets.all(12.0),
+                                    padding: EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
 
-                                  onPressed: () {
-                                    Navigator.pushReplacementNamed(context, '/login');
+                                  onPressed: () async {
+                                    if (_formKey.currentState.validate()) {
+                                      _registerAccount();
+                                    }
                                   },
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(100.0),
@@ -143,4 +181,31 @@ class _SignupPageState extends State<SignupPage> {
         )
     );
   }
+
+
+    void _registerAccount() async {
+    final User user = (await _auth.createUserWithEmailAndPassword(
+    email: _emailController.text,
+    password: _passwordController.text,
+    ))
+        .user;
+
+    if (user != null) {
+    if (!user.emailVerified) {
+    await user.sendEmailVerification();
+    }
+    await user.updateProfile(displayName: _nameController.text);
+    final user1 = _auth.currentUser;
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+    builder: (context) => Home(
+    user: user1,
+    )));
+    } else {
+    _isSuccess = false;
+    }
+    }
+
+
 }
+
+

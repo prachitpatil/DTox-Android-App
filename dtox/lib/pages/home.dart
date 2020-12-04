@@ -1,26 +1,36 @@
 import 'dart:async';
-
+import 'package:dtox/pages/login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 //import 'package:percent_indicator/percent_indicator.dart';
 
 
 class Home extends StatefulWidget {
+
+  final User user;
+
+
+  const Home({Key key, this.user}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
   Timer timer;
 
   double percent = 0;
-  static int timeInMinute = 1;
+  static int timeInMinute = 25;
   static int timeInSecond = timeInMinute * 60;
   int time2 = timeInMinute;
-  int time3 = 0;
+  int time3 = 60;
   int sec2 = 0;
-  String quote = "Let's start a Focus Session";
+  String quote = "Don't expect a great day, create one!";
   bool _hasBeenPressed = false;
 
   _StartTimer() {
@@ -30,23 +40,35 @@ class _HomeState extends State<Home> {
       double secPercent = (time / 100);
       time2--;
       sec2 = 59;
-      timer = Timer.periodic(Duration(minutes: 1), (timer) {
-        time3++;
-        if(time3 <= timeInMinute){
-          sec2--;
-        }
-      });
+      // timer = Timer.periodic(Duration(minutes: 1), (timer) {
+      //   time3++;
+      //   if(time2 != 0) {
+      //     time2--;
+      //   }
+      //
+      // });
       timer = Timer.periodic(Duration(seconds: 1), (timer) {
         setState(() {
-          if(time3 <= timeInMinute){
+          if(time2 > 0) {
             sec2--;
           }
-          if(sec2 == 0){
+          else if(time3 != 0) {
+            time3--;
+            if(sec2 > 0) {
+              sec2--;
+            }
+
+          }
+          if(sec2 == 0 && time2 == 0 && time3 == 0) {
+            sec2 = 0;
+          }
+          if(sec2 == 0 && time2 != 0){
             sec2 = 59;
+            time2--;
           }
           if (time > 0) {
             time--;
-            if (time % secPercent == 0) {
+            if (time % secPercent == 0 && time3 != 0) {
               if (percent < 1) {
                 percent += 0.01;
               }
@@ -100,6 +122,14 @@ class _HomeState extends State<Home> {
           letterSpacing: 2.0,
         ),
         ),
+        actions: <Widget>[
+          new IconButton(icon: new Icon(Icons.exit_to_app), onPressed: () {
+            _signOut().whenComplete(() {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => LoginPage()));
+            });
+          },)
+        ],
         centerTitle: true,
         backgroundColor: Colors.grey[800],
       ),
@@ -173,7 +203,7 @@ class _HomeState extends State<Home> {
                           child: Text(
                             '$quote',
                             style: TextStyle(
-                              letterSpacing: 2.0,
+                              letterSpacing: 1.2,
                               color: Colors.white,
                               //fontWeight: FontWeight.bold,
                               fontSize: 20.0,
@@ -273,6 +303,11 @@ class _HomeState extends State<Home> {
 
     );
   }
+
+  Future _signOut() async {
+    await _auth.signOut();
+  }
+
 }
 
 
