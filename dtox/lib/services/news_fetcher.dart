@@ -13,7 +13,7 @@ class News{
 
     String url = 'http://newsapi.org/v2/top-headlines?' +
         'country=in&' +
-        'apiKey=4716cda0fd78483a9a7949a89b479ea9';
+        'apiKey=1234yourapikey1234';
 
     var response = await http.get(url);
 
