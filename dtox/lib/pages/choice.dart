@@ -16,6 +16,7 @@ class _ChoicePageState extends State<ChoicePage> {
     Navigator.pushNamed(context, '/quiz');
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
